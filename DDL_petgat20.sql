@@ -29,6 +29,7 @@ create table Pessoa(
     data_nasc date not null,
     genero char(1),
     id_endereco int not null,
+    email varchar(45) not null,
     constraint fk_Pessoa_Endereco FOREIGN KEY (id_endereco) REFERENCES Endereco (id)
 );
 
@@ -49,6 +50,8 @@ create table Voluntario(
     data_nasc date not null,
     genero char(1),
     id_endereco int not null,
+    email varchar(45) not null,
+    senha varchar(45) not null,
     constraint fk_Vonluntario_Endereco FOREIGN KEY (id_endereco) REFERENCES Endereco (id) on delete cascade
 );
 
@@ -156,3 +159,8 @@ create table Ficha_Medica(
     primary key (id, id_animal),
     constraint fk_FichaMedica_Animal foreign key (id_animal) references Animal (id) on delete cascade
 );
+
+ALTER TABLE `Voluntario` ADD COLUMN `foto` blob;
+ALTER TABLE `Pessoa` ADD COLUMN `foto` blob;
+ALTER TABLE `Animal` ADD COLUMN `foto` blob;
+
