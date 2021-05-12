@@ -1,0 +1,2 @@
+class ParceriosController < ApplicationController
+end
