@@ -160,6 +160,6 @@ create table Fichas_Medicas(
     constraint fk_FichaMedica_Animal foreign key (id_animal) references Animais (id) on delete cascade
 );
 
-ALTER TABLE `Voluntario` ADD COLUMN `foto` blob;
-ALTER TABLE `Pessoa` ADD COLUMN `foto` blob;
-ALTER TABLE `Animal` ADD COLUMN `foto` blob;
+ALTER TABLE `Voluntarios` ADD COLUMN `foto` blob;
+ALTER TABLE `Pessoas` ADD COLUMN `foto` blob;
+ALTER TABLE `Animais` ADD COLUMN `foto` blob;
