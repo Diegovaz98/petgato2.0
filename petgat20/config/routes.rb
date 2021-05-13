@@ -1,18 +1,19 @@
 Rails.application.routes.draw do
-  resources :voluntarios
-  resources :vacinas
-  resources :tipo_de_animals
-  resources :setors
-  resources :responsavels
-  resources :possivel_adocaos
-  resources :pessoas
-  resources :parceiros
-  resources :historico_adocaos
-  resources :ficha_medicas
-  resources :estoque_racaos
-  resources :estoque_farmacinhas
-  resources :enderecos
-  resources :cartao_de_vacinas
+
+  resources :voluntaries
+  resources :vaccines
+  resources :vaccine_cards
+  resources :sectors
+  resources :responsibles
+  resources :possible_adoptions
+  resources :people
+  resources :partners
+  resources :medicine_stocks
+  resources :medical_records
+  resources :feed_stocks
   resources :animals
+  resources :animal_types
+  resources :adoption_histories
+  resources :addresses
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

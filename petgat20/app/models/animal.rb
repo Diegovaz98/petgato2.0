@@ -1,3 +1,3 @@
 class Animal < ApplicationRecord
-    self.table_name = "Animais"
+    self.table_name = "animals"
 end
