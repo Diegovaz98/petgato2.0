@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/petgato2-front/node_modules
+/petgato2-front/.pnp
+/petgato2-front/.pnp.js
+
+# testing
+/petgato2-front/coverage
+
+# production
+/petgato2-front/build
+
+# misc
+/petgato2-front/.DS_Store
+/petgato2-front/.env.local
+/petgato2-front/.env.development.local
+/petgato2-front/.env.test.local
+/petgato2-front/.env.production.local
+
+/petgato2-front/npm-debug.log*
+/petgato2-front/yarn-debug.log*
+/petgato2-front/yarn-error.log*
