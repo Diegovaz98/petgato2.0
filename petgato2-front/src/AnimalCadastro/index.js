@@ -33,7 +33,7 @@ import {
   GoRegister,
 } from "./styles";
 
-const Cadastro = () => {
+const AnimalCadastro = () => {
   const { register, handleSubmit, errors, setError } = useForm();
 
 
@@ -49,15 +49,8 @@ const Cadastro = () => {
         <Content>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Title>PETGATO</Title>
-            <Section>Cadastro</Section>
+            <Section>Cadastro de Animal</Section>
             <Grid>
-              <Input
-                
-                placeholder="E-mail"
-                type="email"
-                {...register('email', { required: true })}
-                errors={errors}
-              />
               <Input
                 
                 placeholder="Nome"
@@ -67,87 +60,47 @@ const Cadastro = () => {
               />
               <Input
                 
-                placeholder="CPF"
+                placeholder="Idade"
                 type="text"
-                {...register('cpf', { required: true })}
+                {...register('idade', { required: true })}
                 errors={errors}
               />
               <Input
                 
-                placeholder="RG"
+                placeholder="Data de chegada"
                 type="text"
-                {...register('rg', { required: true })}
+                {...register('data_chegada', { required: true })}
                 errors={errors}
               />
               <Input
                 
-                placeholder="Telefone"
+                placeholder="Adotado?"
                 type="text"
-                {...register('telefone', { required: true })}
+                {...register('adotado', { required: true })}
                 errors={errors}
               />
               <Input
                 
-                placeholder="CEP"
+                placeholder="ID do Setor"
                 type="text"
-                {...register('cep', { required: true })}
+                {...register('id_setor', { required: true })}
                 errors={errors}
               />
               <Input
                 
-                placeholder="Rua"
+                placeholder="ID Tipo Animal"
                 type="text"
-                {...register('rua', { required: true })}
+                {...register('id_tipo_animal', { required: true })}
                 errors={errors}
               />
               <Input
                 
-                placeholder="Numero"
+                placeholder="Raça"
                 type="text"
-                {...register('numero', { required: true })}
+                {...register('raca', { required: true })}
                 errors={errors}
               />
-              <Input
                 
-                placeholder="Complemento"
-                type="text"
-                {...register('complemento')}
-                errors={errors}
-              />
-                <Input
-                  
-                  placeholder="Bairro"
-                  type="text"
-                  {...register('bairro')}
-                  errors={errors}
-                />
-              <Input
-                
-                placeholder="Cidade"
-                type="text"
-                {...register('cidade')}
-                errors={errors}
-              />
-              <Input
-                
-                placeholder="Estado"
-                type="text"
-                {...register('estado')}
-                errors={errors}
-              />
-              <Input
-                
-                placeholder="País"
-                type="text"
-                {...register('pais')}
-                errors={errors}
-              />
-              <Input
-                placeholder="Senha"
-                type="password"
-                {...register('senha', { required: true })}
-                errors={errors}
-              />
             </Grid>
             <Submit>
               <Button type="submit">CADASTRAR</Button>
@@ -159,4 +112,4 @@ const Cadastro = () => {
   );
 };
 
-export default Cadastro;
+export default AnimalCadastro;

@@ -171,12 +171,6 @@ const Cadastro = () => {
                 {...register('pais')}
                 errors={errors}
               />
-              <Input
-                placeholder="Senha"
-                type="password"
-                {...register('senha', { required: true })}
-                errors={errors}
-              />
             </Grid>
             <Submit>
               <Button type="submit">CADASTRAR</Button>

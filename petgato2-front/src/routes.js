@@ -4,7 +4,7 @@ export default {
     volutaryregister: "/voluntaryregister",
     login: "/login",
     dashboard: "/dashboard",
-    animal: "/animal",
+    animalregister: "/animalregister",
     tipoanimal: "/tipoanimal",
   };
   

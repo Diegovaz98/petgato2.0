@@ -17,6 +17,9 @@ const Home = () => {
                 <li>
                     <Link to = "/tipoanimal"> Tipo Animal</Link>
                 </li>
+                <li>
+                    <Link to = "/animalregister"> Cadastro Animal</Link>
+                </li>
             </ul>
         </>
     );

@@ -4,12 +4,13 @@ import Cadastro from './Cadastro';
 import VoluntarioCadastro from './VoluntarioCadastro';
 import Login from './Login';
 import TipoAnimal from './TipoAnimal';
+import AnimalCadastro from './AnimalCadastro';
 import Home from './Home';
 import Dashboard from './DashBoard';
 import routes from "./routes";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const { home, register, login, dashboard, animal, tipoanimal, voluntaryregister } = routes;
+const { home, register, login, dashboard, animalregister, tipoanimal, voluntaryregister } = routes;
 
 function App() {
   return (
@@ -18,6 +19,12 @@ function App() {
           <Switch>
             <Route exact path={home}>
               <Home />
+            </Route>
+            <Route path={tipoanimal}>
+              <TipoAnimal/>
+            </Route>
+            <Route exact path={animalregister}>
+              <AnimalCadastro />
             </Route>
             <Route exact path={dashboard}>
               <Dashboard />
@@ -30,9 +37,6 @@ function App() {
             </Route>
             <Route exact path={login}>
               <Login />
-            </Route>
-            <Route exact path={tipoanimal}>
-              <TipoAnimal />
             </Route>
           </Switch>
         </Router>

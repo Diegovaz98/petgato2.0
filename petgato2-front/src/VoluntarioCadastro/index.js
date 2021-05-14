@@ -47,6 +47,7 @@ const VoluntarioCadastro = () => {
         data_nasc: data.data_nasc,
         genero: data.genero,
         email: data.email,
+        senha: data.senha,
       }
       
     }
