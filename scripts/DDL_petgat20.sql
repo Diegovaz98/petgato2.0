@@ -79,7 +79,6 @@ create table animals (
 DROP TABLE IF EXISTS adoption_histories;
 create table adoption_histories (
     id int not null auto_increment, 
-    nome varchar(255) not null,
     data date not null,
     condicao_animal varchar(255) not null,
     descricao varchar(255), 
@@ -163,25 +162,22 @@ ALTER TABLE `voluntaries` ADD COLUMN `foto` blob;
 ALTER TABLE `people` ADD COLUMN `foto` blob;
 ALTER TABLE `animals` ADD COLUMN `foto` blob;
 
+DROP PROCEDURE IF EXISTS updateSectorQuantity;
 
 DELIMITER //
 
 create procedure updateSectorQuantity(
-	in animal_id int, out message varchar(255)
+	in animal_id int
 )
 begin
 	declare setor_id, quantidade_atual, quantidade_maxima int default 0;
     select id_setor into setor_id from animals where id = animal_id limit 1;
-    select capacidade_max into quantidade_maxima from sectors where id = sector_id; 
-    if setor_id <> 0 then
+    select capacidade_max into quantidade_maxima from sectors where id = setor_id; 
+    if setor_id > 0 then
         select count(*) into quantidade_atual from animals where id_setor = setor_id and adotado <> true; 
         if quantidade_atual >= 0 and quantidade_atual < quantidade_maxima THEN
 			update sectors set quantidade = quantidade_atual where id = setor_id;
-		else 
-			set message = "Capacidade máxima atingida";
 		end if;
-	else 
-		set message = "Setor não encontrado";
     end if;
 	
 end//
@@ -190,7 +186,7 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE TRIGGER atualizaQuantidadeAfterInsert
+CREATE TRIGGER atualizaQuantidadeAfterInsertAnimals
     AFTER INSERT
     ON animals for each row
 BEGIN
@@ -200,6 +196,18 @@ BEGIN
     if quantidade_atual > 0 then
 		update sectors set quantidade = quantidade_atual where id = NEW.id_setor;
     end if;
-END//    
+END//
+
+DROP TRIGGER if exists atualizaQuantidadeAfterInsertAdoptionHistories;
+
+DELIMITER //
+
+CREATE TRIGGER atualizaQuantidadeAfterInsertAdoptionHistories
+    AFTER INSERT
+    ON adoption_histories for each row
+BEGIN
+	UPDATE animals set adotado = true where id = NEW.id_animal;
+	call updateSectorQuantity (NEW.id_animal);
+END//   
 
 DELIMITER ;
