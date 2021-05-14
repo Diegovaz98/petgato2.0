@@ -116,8 +116,8 @@ create table responsibles(
     unique (id_animal, id_voluntario)
 );
 
-DROP TABLE IF EXISTS medicine_stock;
-create table medicine_stock(
+DROP TABLE IF EXISTS medicine_stocks;
+create table medicine_stocks(
     id int not null primary key auto_increment,
     nome varchar(255) not null,
     validade date not null,
@@ -138,9 +138,10 @@ create table feed_stocks(
 
 DROP TABLE IF EXISTS partners;
 create table partners(
+	id int not null primary key auto_increment,
     telefone VARCHAR(11) not null,
     nome VARCHAR(255) not null,
-    email VARCHAR(255) not null primary key UNIQUE
+    email VARCHAR(255) not null unique
 );
 
 DROP TABLE IF EXISTS medical_records;
@@ -162,52 +163,3 @@ ALTER TABLE `voluntaries` ADD COLUMN `foto` blob;
 ALTER TABLE `people` ADD COLUMN `foto` blob;
 ALTER TABLE `animals` ADD COLUMN `foto` blob;
 
-DROP PROCEDURE IF EXISTS updateSectorQuantity;
-
-DELIMITER //
-
-create procedure updateSectorQuantity(
-	in animal_id int
-)
-begin
-	declare setor_id, quantidade_atual, quantidade_maxima int default 0;
-    select id_setor into setor_id from animals where id = animal_id limit 1;
-    select capacidade_max into quantidade_maxima from sectors where id = setor_id; 
-    if setor_id > 0 then
-        select count(*) into quantidade_atual from animals where id_setor = setor_id and adotado <> true; 
-        if quantidade_atual >= 0 and quantidade_atual < quantidade_maxima THEN
-			update sectors set quantidade = quantidade_atual where id = setor_id;
-		end if;
-    end if;
-	
-end//
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER atualizaQuantidadeAfterInsertAnimals
-    AFTER INSERT
-    ON animals for each row
-BEGIN
-	declare quantidade_atual int default 0;
-    select count(*) into quantidade_atual from animals where id_setor = NEW.id_setor and adotado <> true;
-    
-    if quantidade_atual > 0 then
-		update sectors set quantidade = quantidade_atual where id = NEW.id_setor;
-    end if;
-END//
-
-DROP TRIGGER if exists atualizaQuantidadeAfterInsertAdoptionHistories;
-
-DELIMITER //
-
-CREATE TRIGGER atualizaQuantidadeAfterInsertAdoptionHistories
-    AFTER INSERT
-    ON adoption_histories for each row
-BEGIN
-	UPDATE animals set adotado = true where id = NEW.id_animal;
-	call updateSectorQuantity (NEW.id_animal);
-END//   
-
-DELIMITER ;

@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   resources :animal_types
   resources :adoption_histories
   resources :addresses
+
+  get "/animals_adopted/", to: "animals#animals_adopted"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
