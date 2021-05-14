@@ -3,8 +3,7 @@ class PeopleController < ApplicationController
 
   # GET /people
   def index
-    @people = Person.all
-
+    @people = People.find_by_sql("SELECT people.*, addresses.* FROM people LEFT JOIN addresses on addresses.people_id = people.CPF")
     render json: @people
   end
 
@@ -15,8 +14,7 @@ class PeopleController < ApplicationController
 
   # POST /people
   def create
-    @person = Person.new(person_params)
-
+    @person = People.new(person_params)
     if @person.save
       render json: @person, status: :created, location: @person
     else
@@ -41,11 +39,14 @@ class PeopleController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
-      @person = Person.find(params[:id])
+      @person = People.includes(:address).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def person_params
-      params.require(:person).permit(:CPF, :nome, :RG, :data_nasc, :genero, :email, :id_endereco)
+      params.require(:people).permit(
+        :CPF, :nome, :RG, :data_nasc, :genero, :email,  
+        {:address_attributes => [:people_id, :cep, :endereco, :numero, :complemento, :pais, :estado, :cidade, :bairro]}
+      )
     end
 end

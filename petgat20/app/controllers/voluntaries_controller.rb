@@ -46,6 +46,6 @@ class VoluntariesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def voluntary_params
-      params.require(:voluntary).permit(:CPF, :nome, :RG, :data_nasc, :genero, :email, :senha, :id_endereco)
+      params.require(:voluntary).permit(:CPF, :nome, :RG, :data_nasc, :genero, :email, :senha)
     end
 end

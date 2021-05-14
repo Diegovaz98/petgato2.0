@@ -10,17 +10,7 @@ create table animal_types(
 );
  
 DROP TABLE IF EXISTS addresses;      
-create table addresses(
-    id int not null primary key auto_increment,
-    cep varchar(11) not null,
-    complemento VARCHAR(255),
-    numero int not null,
-    endereco VARCHAR(255) not null,
-    pais VARCHAR(255) not null,
-    estado VARCHAR(255) not null,
-    cidade VARCHAR(255) not null,
-    bairro VARCHAR(255) not null
-);
+
 
 DROP TABLE IF EXISTS people;
 create table people(
@@ -29,9 +19,21 @@ create table people(
     RG varchar(255) not null,
     data_nasc date not null,
     genero char(1),
-    id_endereco int not null,
     email varchar(255) not null,
-    constraint fk_People_Addresses FOREIGN KEY (id_endereco) REFERENCES addresses (id)
+    unique (CPF, email)
+);
+
+create table addresses(
+	people_id char(11) not null unique primary key,
+    cep varchar(11) not null,
+    complemento VARCHAR(255),
+    numero int not null,
+    endereco VARCHAR(255) not null,
+    pais VARCHAR(255) not null,
+    estado VARCHAR(255) not null,
+    cidade VARCHAR(255) not null,
+    bairro VARCHAR(255) not null,
+    constraint fk_Addresses_People FOREIGN KEY (people_id) REFERENCES people (CPF) on delete cascade
 );
 
 DROP TABLE IF EXISTS vaccines;
@@ -48,23 +50,21 @@ create table voluntaries(
     RG varchar(255) not null,
     data_nasc date not null,
     genero char(1),
-    id_endereco int not null,
     email varchar(255) not null,
-    senha varchar(255) not null,
-    constraint fk_Voluntaries_addresses FOREIGN KEY (id_endereco) REFERENCES addresses (id) on delete cascade
+    senha varchar(255) not null
 );
 
 DROP TABLE IF EXISTS sectors;
 create table sectors(
 	id int not null primary key auto_increment,
-    numero_setor varchar(11) not null, 
+    numero varchar(11) not null unique, 
     capacidade_max int not null,
     quantidade int not null
 );
 
 DROP TABLE IF EXISTS animals;
 create table animals (
-    id int not null primary key unique auto_increment,
+    id int not null primary key auto_increment,
     nome varchar(255) not null,
     idade int not null,
     data_chegada date not null,
@@ -87,7 +87,7 @@ create table adoption_histories (
     id_pessoa char(11) not null, 
     primary key (id, id_animal),
     constraint fk_AdoptionHistories_Animals FOREIGN KEY (id_animal) REFERENCES animals (id) on delete cascade,
-    constraint fk_animals_people foreign key (id_pessoa) references people (cpf)
+    constraint fk_animals_people foreign key (id_pessoa) references people (CPF)
 );
 
 DROP TABLE IF EXISTS possible_adoptions;
@@ -95,7 +95,7 @@ create table possible_adoptions(
 	id_animal int not null,
     id_pessoa char(11) not null,
     foreign key (id_animal) references animals (id) on delete cascade, 
-    foreign key (id_pessoa) references people (cpf) on delete cascade, 
+    foreign key (id_pessoa) references people (CPF) on delete cascade, 
     unique (id_animal, id_pessoa)
 );
 
@@ -113,7 +113,7 @@ create table responsibles(
 	id_animal int not null,
     id_voluntario char(11) not null,
     foreign key (id_animal) references animals (id) ON DELETE CASCADE,
-    foreign key (id_voluntario) references voluntaries (cpf) ON DELETE CASCADE,
+    foreign key (id_voluntario) references voluntaries (CPF) ON DELETE CASCADE,
     unique (id_animal, id_voluntario)
 );
 
@@ -162,3 +162,44 @@ create table medical_records(
 ALTER TABLE `voluntaries` ADD COLUMN `foto` blob;
 ALTER TABLE `people` ADD COLUMN `foto` blob;
 ALTER TABLE `animals` ADD COLUMN `foto` blob;
+
+
+DELIMITER //
+
+create procedure updateSectorQuantity(
+	in animal_id int, out message varchar(255)
+)
+begin
+	declare setor_id, quantidade_atual, quantidade_maxima int default 0;
+    select id_setor into setor_id from animals where id = animal_id limit 1;
+    select capacidade_max into quantidade_maxima from sectors where id = sector_id; 
+    if setor_id <> 0 then
+        select count(*) into quantidade_atual from animals where id_setor = setor_id and adotado <> true; 
+        if quantidade_atual >= 0 and quantidade_atual < quantidade_maxima THEN
+			update sectors set quantidade = quantidade_atual where id = setor_id;
+		else 
+			set message = "Capacidade máxima atingida";
+		end if;
+	else 
+		set message = "Setor não encontrado";
+    end if;
+	
+end//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER atualizaQuantidadeAfterInsert
+    AFTER INSERT
+    ON animals for each row
+BEGIN
+	declare quantidade_atual int default 0;
+    select count(*) into quantidade_atual from animals where id_setor = NEW.id_setor and adotado <> true;
+    
+    if quantidade_atual > 0 then
+		update sectors set quantidade = quantidade_atual where id = NEW.id_setor;
+    end if;
+END//    
+
+DELIMITER ;

@@ -46,6 +46,6 @@ class SectorsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sector_params
-      params.require(:sector).permit(:numero_setor, :numero_setor, :quantidade)
+      params.require(:sector).permit(:numero, :quantidade, :capacidade_max)
     end
 end
