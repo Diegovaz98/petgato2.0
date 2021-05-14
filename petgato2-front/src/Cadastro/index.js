@@ -17,6 +17,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 //import Input from "../Componentes/Input";
 import { useForm } from "react-hook-form";
+import { postPeople } from "../api";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -48,7 +49,7 @@ const Cadastro = () => {
         genero: data.genero,
         email: data.email,
         address_attributes:{
-          CEP: data.cep,
+          cep: data.cep,
           endereco: data.endereco,
           numero: data.numero,
           complemento: data.complemento,
@@ -60,7 +61,11 @@ const Cadastro = () => {
       }
       
     }
-    console.log(p);
+    postPeople(p).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (
