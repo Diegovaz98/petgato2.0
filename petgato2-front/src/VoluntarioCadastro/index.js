@@ -21,6 +21,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import Foto from "./doguinho.jpg";
+import { postVolutaries } from '../api';
 import {
   Layout,
   Image,
@@ -40,7 +41,7 @@ const VoluntarioCadastro = () => {
 
   const onSubmit = (data) => {
     const p = {
-      volunteers:{
+      voluntary:{
         CPF: data.cpf,
         nome: data.nome,
         RG: data.rg,
@@ -51,7 +52,11 @@ const VoluntarioCadastro = () => {
       }
       
     }
-    console.log(p);
+    postVolutaries(p).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (

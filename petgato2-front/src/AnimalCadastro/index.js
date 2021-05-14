@@ -21,6 +21,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import Foto from "./dog-red.jpg";
+import { postAnimals } from '../api';
 import {
   Layout,
   Image,
@@ -39,7 +40,23 @@ const AnimalCadastro = () => {
 
 
   const onSubmit = (data) => {
-    console.log(data);
+    const p = {
+      animal:{
+        nome: data.nome,
+        idade: data.idade,
+        data_chegada: data.data_chegada,
+        adotado: data.adotado,
+        raca: data.raca,
+        id_setor: data.id_setor,
+        id_tipo_animal: data.id_tipo_animal,
+
+      }
+    }
+    postAnimals(p).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (

@@ -7,10 +7,16 @@ import TipoAnimal from './TipoAnimal';
 import AnimalCadastro from './AnimalCadastro';
 import Home from './Home';
 import Dashboard from './DashBoard';
+import AnimalsList from './AnimalsList';
+import FeedStockList from './EstoqueList';
+import VoluntariesList from './VoluntariesList';
+import AnimalTypeList from './TipoAnimalList';
+import PeopleList from './PeopleList';
+import CadastroEstoqueRacao from './CadastroEstoqueRacao';
 import routes from "./routes";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const { home, register, login, dashboard, animalregister, tipoanimal, voluntaryregister } = routes;
+const { home, register, login, dashboard, animalregister, tipoanimal, voluntaryregister, foodstock, volutaryindex, people, animalindex, tipoanimalindex, foodstockindex } = routes;
 
 function App() {
   return (
@@ -22,6 +28,24 @@ function App() {
             </Route>
             <Route path={tipoanimal}>
               <TipoAnimal/>
+            </Route>
+            <Route path={animalindex}>
+              <AnimalsList />
+            </Route>
+            <Route path={foodstockindex}>
+              <FeedStockList />
+            </Route>
+            <Route path={volutaryindex}>
+              <VoluntariesList />
+            </Route>
+            <Route path={people}>
+              <PeopleList />
+            </Route>
+            <Route path={tipoanimalindex}>
+              <AnimalTypeList />
+            </Route>
+            <Route path={foodstock}>
+              <CadastroEstoqueRacao />
             </Route>
             <Route exact path={animalregister}>
               <AnimalCadastro />

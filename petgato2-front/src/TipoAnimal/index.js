@@ -18,7 +18,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
-
+import { postAnimalType }  from "../api";
 import {
   Layout,
   Content,
@@ -35,7 +35,16 @@ const TipoAnimal = () => {
 
 
   const onSubmit = (data) => {
-    console.log(data);
+    const p = {
+      animal_type: {
+        nome: data.nome,
+      }
+    }
+    postAnimalType(p).then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (
