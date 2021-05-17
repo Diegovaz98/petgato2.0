@@ -5,7 +5,7 @@ use petgat20_development;
 
 DROP TABLE IF EXISTS animal_types;
 create table animal_types(
-    id int primary key not null auto_increment,
+    id int primary key not         null auto_increment,
     nome varchar(255) not null 
 );
  
